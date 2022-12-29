@@ -46,6 +46,15 @@ function displayTemperature(response) {
   iconElement.setAttribute("alt", response.data.daily[0].condition.description);
 }
 
-let city = "Port Talbot";
-let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=o7ea0936527a0d6te1ab2cfbbc475e37&units=metric`;
-axios.get(apiUrl).then(displayTemperature);
+// Search for city
+function search(city) {
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=o7ea0936527a0d6te1ab2cfbbc475e37&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
+}
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
