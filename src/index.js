@@ -30,6 +30,7 @@ function displayTemperature(response) {
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
   let dateElement = document.querySelector("#date");
+  let iconElement = document.querySelector("#icon");
   temperatureElement.innerHTML = Math.round(
     response.data.daily[0].temperature.day
   );
@@ -38,8 +39,13 @@ function displayTemperature(response) {
   humidityElement.innerHTML = response.data.daily[0].temperature.humidity;
   windElement.innerHTML = Math.round(response.data.daily[0].wind.speed);
   dateElement.innerHTML = formatDate(response.data.daily[0].time * 1000);
+  iconElement.setAttribute(
+    "src",
+    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.daily[0].condition.icon}.png`
+  );
+  iconElement.setAttribute("alt", response.data.daily[0].condition.description);
 }
 
-let city = "Bari";
+let city = "Port Talbot";
 let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=o7ea0936527a0d6te1ab2cfbbc475e37&units=metric`;
 axios.get(apiUrl).then(displayTemperature);
