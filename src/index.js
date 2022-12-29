@@ -88,4 +88,4 @@ celsiusLink.addEventListener("click", displayCelsiusTemperature);
 
 let celsiusTemperature = null;
 
-search("New York");
+search("Longyearbyen");
