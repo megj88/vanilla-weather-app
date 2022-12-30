@@ -21,6 +21,69 @@ function formatDate(timestamp) {
   let day = days[date.getDay()];
   return `${day} ${hours}:${minutes}`;
 }
+// weather forecast - amend HTML
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row">`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        ` 
+               <div class="col-2">
+                <div class="forecast-date">${formatDay(forecastDay.time)}</div>
+                <img
+                  src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
+                    forecastDay.condition.icon
+                  }.png"
+                  alt=""
+                  width="42px"
+                  class="forecast-icon"
+                />
+                <div class="forecast-temp">
+                  <span class="temp-max">${Math.round(
+                    forecastDay.temperature.maximum
+                  )}</span>
+                  <span class="temp-min">${Math.round(
+                    forecastDay.temperature.minimum
+                  )}</span>
+                </div>
+              </div>
+            
+            `;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+// API call for forecast
+
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "o7ea0936527a0d6te1ab2cfbbc475e37";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`;
+  axios.get(apiUrl).then(displayForecast);
+}
 
 //Display Current Weather
 function displayTemperature(response) {
@@ -31,7 +94,6 @@ function displayTemperature(response) {
   let windElement = document.querySelector("#wind");
   let dateElement = document.querySelector("#date");
   let iconElement = document.querySelector("#icon");
-  displayForecast();
 
   celsiusTemperature = response.data.temperature.current;
 
@@ -46,6 +108,7 @@ function displayTemperature(response) {
     `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   );
   iconElement.setAttribute("alt", response.data.condition.description);
+  getForecast(response.data.coordinates);
 }
 
 // Search for city
@@ -89,32 +152,3 @@ celsiusLink.addEventListener("click", displayCelsiusTemperature);
 let celsiusTemperature = null;
 
 search("Longyearbyen");
-
-// weather forcast
-
-function displayForecast() {
-  let forecastElement = document.querySelector("#forecast");
-  let forecastHTML = `<div class="row">`;
-  let forecastDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  forecastDays.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      ` 
-               <div class="col-2">
-                <div class="forecast-date">${day}</div>
-                <img
-                  src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/snow-night.png"
-                  alt=""
-                  width="42px"
-                />
-                <div class="forecast-temp">
-                  <span class="temp-max">18 </span>|
-                  <span class="temp-min">12</span>
-                </div>
-              </div>
-            
-            `;
-  });
-  forecastHTML = forecastHTML + `</div>`;
-  forecastElement.innerHTML = forecastHTML;
-}
