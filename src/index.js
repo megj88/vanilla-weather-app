@@ -32,26 +32,25 @@ function displayTemperature(response) {
   let dateElement = document.querySelector("#date");
   let iconElement = document.querySelector("#icon");
 
-  celsiusTemperature = response.data.daily[0].temperature.day;
+  celsiusTemperature = response.data.temperature.current;
 
-  temperatureElement.innerHTML = Math.round(
-    response.data.daily[0].temperature.day
-  );
+  temperatureElement.innerHTML = Math.round(response.data.temperature.current);
   cityElement.innerHTML = response.data.city;
-  description.innerHTML = response.data.daily[0].condition.description;
-  humidityElement.innerHTML = response.data.daily[0].temperature.humidity;
-  windElement.innerHTML = Math.round(response.data.daily[0].wind.speed);
-  dateElement.innerHTML = formatDate(response.data.daily[0].time * 1000);
+  description.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = response.data.temperature.humidity;
+  windElement.innerHTML = Math.round(response.data.wind.speed);
+  dateElement.innerHTML = formatDate(response.data.time * 1000);
   iconElement.setAttribute(
     "src",
-    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.daily[0].condition.icon}.png`
+    `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   );
-  iconElement.setAttribute("alt", response.data.daily[0].condition.description);
+  iconElement.setAttribute("alt", response.data.condition.description);
 }
 
 // Search for city
 function search(city) {
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=o7ea0936527a0d6te1ab2cfbbc475e37&units=metric`;
+  let apiKey = "o7ea0936527a0d6te1ab2cfbbc475e37";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayTemperature);
 }
 function handleSubmit(event) {
@@ -89,3 +88,5 @@ celsiusLink.addEventListener("click", displayCelsiusTemperature);
 let celsiusTemperature = null;
 
 search("Longyearbyen");
+
+// weather forcast
