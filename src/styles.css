@@ -100,9 +100,14 @@ li:first-letter {
   background: #48464f;
   font-weight: bold;
   font-size: 16px;
-  padding: 15px 0;
+  padding: 10px;
   border: none;
   height: 50px;
+  border-radius: 16px;
+}
+
+#get-current-city {
+  background: #8a7ac5;
 }
 
 .weather-forecast {
