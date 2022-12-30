@@ -62,10 +62,10 @@ function displayForecast(response) {
                 <div class="forecast-temp">
                   <span class="temp-max">${Math.round(
                     forecastDay.temperature.maximum
-                  )}</span>
+                  )}°</span>
                   <span class="temp-min">${Math.round(
                     forecastDay.temperature.minimum
-                  )}</span>
+                  )}°</span>
                 </div>
               </div>
             
@@ -79,7 +79,6 @@ function displayForecast(response) {
 // API call for forecast
 
 function getForecast(coordinates) {
-  console.log(coordinates);
   let apiKey = "o7ea0936527a0d6te1ab2cfbbc475e37";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`;
   axios.get(apiUrl).then(displayForecast);
