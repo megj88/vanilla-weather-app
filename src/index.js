@@ -124,4 +124,21 @@ function handleSubmit(event) {
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
+// get current city
+function getCurrentLocation(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let units = "metric";
+  let apiKey = "o7ea0936527a0d6te1ab2cfbbc475e37";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${lon}&lat=${lat}&key=${apiKey}`;
+  axios.get(apiUrl).then(displayTemperature);
+}
+
+function getPosition(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(getCurrentLocation);
+}
+let getCurrentCity = document.querySelector("#get-current-city");
+getCurrentCity.addEventListener("click", getPosition);
+
 search("Longyearbyen");
