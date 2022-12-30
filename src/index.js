@@ -31,6 +31,7 @@ function displayTemperature(response) {
   let windElement = document.querySelector("#wind");
   let dateElement = document.querySelector("#date");
   let iconElement = document.querySelector("#icon");
+  displayForecast();
 
   celsiusTemperature = response.data.temperature.current;
 
@@ -90,3 +91,30 @@ let celsiusTemperature = null;
 search("Longyearbyen");
 
 // weather forcast
+
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let forecastDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  forecastDays.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      ` 
+               <div class="col-2">
+                <div class="forecast-date">${day}</div>
+                <img
+                  src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/snow-night.png"
+                  alt=""
+                  width="42px"
+                />
+                <div class="forecast-temp">
+                  <span class="temp-max">18 </span>|
+                  <span class="temp-min">12</span>
+                </div>
+              </div>
+            
+            `;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
